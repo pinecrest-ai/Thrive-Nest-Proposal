@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThriveNest - Platform Development Proposal</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green-primary: #1a4d2e;
+            --green-dark: #143d24;
+            --green-light: #2d6b47;
+            --terracotta: #c65d3b;
+            --terracotta-light: #d4724f;
+            --cream: #faf8f3;
+            --cream-dark: #f0ece3;
+            --cream-darker: #e4ded2;
+            --text-dark: #2c2c2c;
+            --text-medium: #5a5a5a;
+            --text-light: #8a8a8a;
+            --white: #ffffff;
+            --shadow-sm: 0 2px 8px rgba(26, 77, 46, 0.06);
+            --shadow-md: 0 4px 20px rgba(26, 77, 46, 0.08);
+            --shadow-lg: 0 8px 40px rgba(26, 77, 46, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--cream);
+            color: var(--text-dark);
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-weight: 400;
+            line-height: 1.3;
+        }
+
+        .label {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--terracotta);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 5rem 0;
+        }
+
+        /* Header */
+        header {
+            padding: 1.5rem 0;
+            background: var(--white);
+            border-bottom: 1px solid var(--cream-dark);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: block;
+            height: 40px;
+            width: auto;
+        }
+
+        .logo img {
+            height: 100%;
+            width: auto;
+            display: block;
+        }
+
+        .header-tag {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            padding: 0.5rem 1rem;
+            background: var(--cream);
+            border-radius: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(180deg, var(--white) 0%, var(--cream) 100%);
+            padding: 6rem 0 5rem;
+            text-align: center;
+        }
+
+        .hero .label {
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.25rem, 5vw, 3.25rem);
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--green-primary);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-medium);
+            max-width: 650px;
+            margin: 0 auto 2rem;
+            line-height: 1.7;
+        }
+
+        .prepared-for {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--cream-darker);
+            display: inline-block;
+        }
+
+        .prepared-for .label {
+            margin-bottom: 0.5rem;
+            display: block;
+            color: var(--text-light);
+        }
+
+        .prepared-for .name {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: 1.25rem;
+            color: var(--text-dark);
+        }
+
+        /* Market Opportunity Section */
+        .market {
+            background: var(--cream-dark);
+        }
+
+        .market-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .market h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .market-header p {
+            font-size: 1.1rem;
+            color: var(--text-medium);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+        }
+
+        .stat-card .number {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: 2.5rem;
+            color: var(--green-primary);
+            line-height: 1;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-card .desc {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+            line-height: 1.4;
+        }
+
+        .stat-card .source {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+
+        /* Revenue Potential Section */
+        .revenue {
+            background: var(--green-primary);
+            color: var(--white);
+        }
+
+        .revenue-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .revenue-header .label {
+            color: var(--terracotta-light);
+        }
+
+        .revenue-header h2 {
+            font-size: 2.25rem;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .revenue-header p {
+            font-size: 1.1rem;
+            opacity: 0.85;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .grants-table {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .grants-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .grants-table th,
+        .grants-table td {
+            padding: 1.25rem 1.5rem;
+            text-align: left;
+        }
+
+        .grants-table thead {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .grants-table th {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .grants-table tbody tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .grants-table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .grants-table td {
+            font-size: 0.95rem;
+        }
+
+        .grants-table .amount {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            color: var(--terracotta-light);
+            font-size: 1.1rem;
+        }
+
+        .revenue-summary {
+            margin-top: 3rem;
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+        }
+
+        .revenue-summary p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .revenue-summary .highlight {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: 1.5rem;
+            color: var(--white);
+        }
+
+        @media (max-width: 768px) {
+            .grants-table {
+                overflow-x: auto;
+            }
+            .grants-table table {
+                min-width: 600px;
+            }
+        }
+
+        /* What I'll Build Section */
+        .deliverables {
+            background: var(--white);
+        }
+
+        .deliverables-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .deliverables h2 {
+            font-size: 2.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .deliverables-header p {
+            font-size: 1.1rem;
+            color: var(--text-medium);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .feature-card {
+            padding: 2rem;
+            background: var(--cream);
+            border-radius: 12px;
+            border: 1px solid var(--cream-dark);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--green-primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--white);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-dark);
+        }
+
+        .feature-card p {
+            font-size: 0.95rem;
+            color: var(--text-medium);
+            line-height: 1.6;
+        }
+
+        /* Why Work With Me Section */
+        .why-me {
+            background: var(--white);
+            border-top: 1px solid var(--cream-dark);
+            border-bottom: 1px solid var(--cream-dark);
+        }
+
+        .why-me-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+        .why-me-header h2 {
+            font-size: 2.5rem;
+            color: var(--green-primary);
+            margin-top: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .why-me-header p {
+            font-size: 1.1rem;
+            color: var(--text-medium);
+        }
+
+        .why-me-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .why-me-card {
+            padding: 2.5rem;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .why-me-card.pain {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border: 1px solid #fecaca;
+        }
+
+        .why-me-card.solution {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 1px solid #bbf7d0;
+        }
+
+        .why-me-card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .why-me-card.pain .why-me-card-icon {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .why-me-card.solution .why-me-card-icon {
+            background: #dcfce7;
+            color: var(--green-primary);
+        }
+
+        .why-me-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .why-me-card.pain h3 {
+            color: #991b1b;
+        }
+
+        .why-me-card.solution h3 {
+            color: var(--green-primary);
+        }
+
+        .why-me-card p {
+            color: var(--text-medium);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .why-me-card .highlight-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .why-me-card.pain .highlight-text {
+            color: #dc2626;
+        }
+
+        .why-me-card.solution .highlight-text {
+            color: var(--green-primary);
+        }
+
+        .proof-banner {
+            background: var(--green-primary);
+            color: var(--white);
+            padding: 2.5rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .proof-banner-quote {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .proof-banner-context {
+            font-size: 0.95rem;
+            opacity: 0.85;
+        }
+
+        @media (max-width: 768px) {
+            .why-me-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .why-me-header h2 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Pricing Section */
+        .pricing {
+            background: linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 100%);
+            padding: 6rem 0;
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .pricing-header h2 {
+            font-size: 2.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-header p {
+            font-size: 1.1rem;
+            color: var(--text-medium);
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            align-items: stretch;
+        }
+
+        @media (max-width: 1000px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                max-width: 450px;
+                margin: 0 auto;
+            }
+        }
+
+        .pricing-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--green-primary);
+            transform: scale(1.02);
+        }
+
+        .pricing-card.featured::before {
+            content: 'Recommended';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--green-primary);
+            color: var(--white);
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .pricing-card.featured .pricing-card-content {
+            padding-top: 1rem;
+        }
+
+        .tier-name {
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--terracotta);
+            margin-bottom: 0.75rem;
+        }
+
+        .tier-title {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .tier-desc {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            min-height: 40px;
+        }
+
+        .price {
+            margin-bottom: 2rem;
+        }
+
+        .price-amount {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: 3rem;
+            color: var(--green-primary);
+            line-height: 1;
+        }
+
+        .price-period {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+
+        .feature-list li {
+            padding: 0.6rem 0;
+            padding-left: 1.75rem;
+            position: relative;
+            font-size: 0.95rem;
+            color: var(--text-medium);
+            border-bottom: 1px solid var(--cream);
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background: var(--green-primary);
+            border-radius: 50%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E");
+            background-size: 10px;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .roi-box {
+            background: var(--cream);
+            padding: 1.25rem;
+            border-radius: 8px;
+            margin-top: auto;
+        }
+
+        .roi-box-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--green-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .roi-box-text {
+            font-size: 0.85rem;
+            color: var(--text-medium);
+            line-height: 1.5;
+        }
+
+        .roi-box-amount {
+            font-weight: 600;
+            color: var(--green-primary);
+        }
+
+        /* Timeline Section */
+        .timeline {
+            background: var(--white);
+        }
+
+        .timeline-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .timeline h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-steps {
+            display: flex;
+            justify-content: space-between;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline-steps::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 60px;
+            right: 60px;
+            height: 2px;
+            background: var(--cream-darker);
+        }
+
+        @media (max-width: 768px) {
+            .timeline-steps {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            .timeline-steps::before {
+                display: none;
+            }
+        }
+
+        .timeline-step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: var(--green-primary);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: 1.25rem;
+            margin: 0 auto 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-title {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .step-desc {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* CTA Section */
+        .cta {
+            background: var(--cream);
+            text-align: center;
+            padding: 5rem 0;
+        }
+
+        .cta h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.1rem;
+            color: var(--text-medium);
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--green-primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--green-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--white);
+            padding: 3rem 0;
+            border-top: 1px solid var(--cream-dark);
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-logo {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--green-primary);
+        }
+
+        .footer-meta {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* Print Styles */
+        @media print {
+            header { position: static; }
+            .revenue { background: #1a4d2e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-inner">
+            <a class="logo" href="https://thrivenest.ai" target="_blank">
+                <img src="https://thrivenest.ai/TN%20LOGO%20Close.png" alt="ThriveNest">
+            </a>
+            <span class="header-tag">Platform Development Proposal</span>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <span class="label">Platform Development Proposal</span>
+            <h1>Build the platform that turns <em>ThriveNest</em> into a scalable business</h1>
+            <p>A complete SaaS platform—not just a website—with student onboarding, AI chatbot integration, teacher dashboards, and analytics. Built to win grant-funded school contracts worth tens of thousands each.</p>
+
+            <div class="prepared-for">
+                <span class="label">Prepared For</span>
+                <div class="name">Anthony @ ThriveNest</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Market Opportunity Section -->
+    <section class="market">
+        <div class="container">
+            <div class="market-header">
+                <span class="label">The Opportunity</span>
+                <h2>Why schools will pay for ThriveNest</h2>
+                <p>The market conditions are perfect for a financial wellness platform targeting Title I schools.</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="number">59%</div>
+                    <div class="desc">of students consider dropping out due to financial stress</div>
+                    <div class="source">Ellucian, 2024</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">29</div>
+                    <div class="desc">states now mandate financial literacy education</div>
+                    <div class="source">NEFE, 2024</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">11:1</div>
+                    <div class="desc">return on investment for SEL programs</div>
+                    <div class="source">CASEL</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">90%</div>
+                    <div class="desc">of school districts receive Title I funding</div>
+                    <div class="source">U.S. Dept of Ed</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Revenue Potential Section -->
+    <section class="revenue">
+        <div class="container">
+            <div class="revenue-header">
+                <span class="label">Revenue Potential</span>
+                <h2>Grants that will fund ThriveNest contracts</h2>
+                <p>Schools have access to multiple funding sources specifically designed for financial literacy and student wellness programs. A professional platform makes you grant-ready.</p>
+            </div>
+
+            <div class="grants-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Grant Source</th>
+                            <th>Amount Range</th>
+                            <th>Why ThriveNest Qualifies</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Title IV-A (SSAE)</strong></td>
+                            <td class="amount">Varies by district</td>
+                            <td>Explicitly covers "financial literacy and Federal financial aid awareness activities"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Title I</strong></td>
+                            <td class="amount">~$316/student</td>
+                            <td>Supports low-income students — ThriveNest's target demographic</td>
+                        </tr>
+                        <tr>
+                            <td><strong>State Financial Literacy Grants</strong></td>
+                            <td class="amount">$50K - Millions</td>
+                            <td>29 states mandate financial literacy; many offer direct grants</td>
+                        </tr>
+                        <tr>
+                            <td><strong>FINRA Foundation</strong></td>
+                            <td class="amount">$50K - $100K</td>
+                            <td>Direct financial literacy program funding</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Call for Effective Technology</strong></td>
+                            <td class="amount">$150K - $250K</td>
+                            <td>AI-driven EdTech tools grounded in learning science</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Federal Mental Health (SBMH)</strong></td>
+                            <td class="amount">~$1M average</td>
+                            <td>Emotional wellness and student mental health support</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="revenue-summary">
+                <p>With a professional platform, each school contract could be worth:</p>
+                <div class="highlight">$15,000 - $100,000+ per school</div>
+                <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.7;">Based on typical grant-funded EdTech implementations</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- What I'll Build Section -->
+    <section class="deliverables">
+        <div class="container">
+            <div class="deliverables-header">
+                <span class="label">The Platform</span>
+                <h2>What Pinecrest AI will build for ThriveNest</h2>
+                <p>A feature-rich SaaS platform—not a simple website—engineered to scale with your business and win school contracts.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    </div>
+                    <h3>Student Onboarding</h3>
+                    <p>Individual student accounts with secure authentication, profiles, and progress tracking.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    </div>
+                    <h3>AI Chatbot Integration</h3>
+                    <p>Your conversational AI embedded seamlessly, with conversation history and personalization.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+                    </div>
+                    <h3>Teacher Dashboard</h3>
+                    <p>Real-time visibility into student engagement, flagged messages, and usage analytics.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Work With Me Section -->
+    <section class="why-me">
+        <div class="container">
+            <div class="why-me-header">
+                <span class="label">Our Commitment</span>
+                <h2>Why work with Pinecrest AI</h2>
+                <p>We've seen what happens when development goes wrong. We won't let that happen to ThriveNest.</p>
+            </div>
+
+            <div class="why-me-grid">
+                <div class="why-me-card pain">
+                    <div class="why-me-card-icon">✕</div>
+                    <h3>The typical experience</h3>
+                    <p>You hire a developer. Months go by. Invoices pile up. And when it's finally "done"?</p>
+                    <p class="highlight-text">A broken product that doesn't work.</p>
+                    <p>You've seen this happen—$28,000+ spent over three months with nothing to show for it. That's not development. That's a money pit.</p>
+                </div>
+
+                <div class="why-me-card solution">
+                    <div class="why-me-card-icon">✓</div>
+                    <h3>What we deliver</h3>
+                    <p>One price. One timeline. A platform that actually works.</p>
+                    <p class="highlight-text">No surprises. No broken promises.</p>
+                    <p>You'll get a complete, functional platform ready to demo to schools and win contracts—not a half-finished project that needs more money to fix.</p>
+                </div>
+            </div>
+
+            <div class="proof-banner">
+                <div class="proof-banner-quote">"People absolutely loved it."</div>
+                <div class="proof-banner-context">We've already built an AI chatbot that your users love. Now let's build the platform around it so it can sell.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="pricing-header">
+                <span class="label">Investment</span>
+                <h2>Development packages</h2>
+                <p>Three options based on the scope and features you need. Each builds a platform designed to win school contracts.</p>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- Tier 1 -->
+                <div class="pricing-card">
+                    <div class="pricing-card-content">
+                        <div class="tier-name">Tier 1</div>
+                        <h3 class="tier-title">Foundation</h3>
+                        <p class="tier-desc">MVP platform to land your first school contracts</p>
+
+                        <div class="price">
+                            <div class="price-amount">$15,000</div>
+                            <div class="price-period">one-time</div>
+                        </div>
+
+                        <ul class="feature-list">
+                            <li>AI chatbot integration</li>
+                            <li>Student accounts & authentication</li>
+                            <li>Basic teacher dashboard</li>
+                            <li>Student usage visibility</li>
+                            <li>Flagged message alerts</li>
+                        </ul>
+
+                        <div class="roi-box">
+                            <div class="roi-box-label">ROI Potential</div>
+                            <div class="roi-box-text">Land <span class="roi-box-amount">1 school contract</span> at $20K+ to cover your investment</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tier 2 -->
+                <div class="pricing-card featured">
+                    <div class="pricing-card-content">
+                        <div class="tier-name">Tier 2</div>
+                        <h3 class="tier-title">Professional</h3>
+                        <p class="tier-desc">Full-featured platform for scaling to multiple schools</p>
+
+                        <div class="price">
+                            <div class="price-amount">$22,500</div>
+                            <div class="price-period">one-time</div>
+                        </div>
+
+                        <ul class="feature-list">
+                            <li>Everything in Foundation</li>
+                            <li>Advanced analytics dashboard</li>
+                            <li>Financial wellness scoring</li>
+                            <li>Admin portal with reporting</li>
+                            <li>School branding options</li>
+                            <li>Mobile-responsive design</li>
+                            <li>Twilio integration</li>
+                        </ul>
+
+                        <div class="roi-box">
+                            <div class="roi-box-label">ROI Potential</div>
+                            <div class="roi-box-text">Land <span class="roi-box-amount">2 school contracts</span> at $25K each to see 2x+ return</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tier 3 -->
+                <div class="pricing-card">
+                    <div class="pricing-card-content">
+                        <div class="tier-name">Tier 3</div>
+                        <h3 class="tier-title">Enterprise</h3>
+                        <p class="tier-desc">Gamified experience with grant-ready analytics</p>
+
+                        <div class="price">
+                            <div class="price-amount">$35,000</div>
+                            <div class="price-period">one-time</div>
+                        </div>
+
+                        <ul class="feature-list">
+                            <li>Everything in Professional</li>
+                            <li>Gamification</li>
+                            <li>Student progress visualizations</li>
+                            <li>Grant-ready analytics dashboard</li>
+                            <li>Title I ready reporting</li>
+                        </ul>
+
+                        <div class="roi-box">
+                            <div class="roi-box-label">ROI Potential</div>
+                            <div class="roi-box-text">Win <span class="roi-box-amount">1 district contract</span> at $75K-$150K for 3-4x return</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="timeline">
+        <div class="container">
+            <div class="timeline-header">
+                <span class="label">Process</span>
+                <h2>How we'll work together</h2>
+            </div>
+
+            <div class="timeline-steps">
+                <div class="timeline-step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Discovery</div>
+                    <div class="step-desc">Finalize requirements & design direction</div>
+                </div>
+                <div class="timeline-step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Development</div>
+                    <div class="step-desc">Build the platform with regular check-ins</div>
+                </div>
+                <div class="timeline-step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Testing</div>
+                    <div class="step-desc">QA, feedback rounds, and refinements</div>
+                </div>
+                <div class="timeline-step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Launch</div>
+                    <div class="step-desc">Deploy and hand off documentation</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready when you are.</h2>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-inner">
+            <div class="footer-logo">ThriveNest Platform Proposal</div>
+            <div class="footer-meta">Prepared by Pinecrest AI</div>
+        </div>
+    </footer>
+</body>
+</html>
